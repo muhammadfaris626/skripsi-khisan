@@ -18,6 +18,8 @@ class ColumnListResource extends Resource
     protected static ?string $model = ColumnList::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?int $navigationSort = 5;
+    protected static ?string $navigationGroup = "Masters";
 
     public static function form(Form $form): Form
     {
@@ -82,14 +84,14 @@ class ColumnListResource extends Resource
                 ]),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -97,5 +99,5 @@ class ColumnListResource extends Resource
             'create' => Pages\CreateColumnList::route('/create'),
             'edit' => Pages\EditColumnList::route('/{record}/edit'),
         ];
-    }    
+    }
 }
