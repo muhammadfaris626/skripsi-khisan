@@ -8,6 +8,7 @@ use App\Models\Evaluation;
 use Illuminate\Http\Request;
 use App\Models\CategoryAchievement;
 use App\Models\ColumnList;
+use App\Models\EvaluationList;
 use DateTime;
 use \PDF;
 class PDFController extends Controller
@@ -22,7 +23,8 @@ class PDFController extends Controller
             'nama_karyawan' => $evaluation->employee->name,
             'nik' => $evaluation->employee->registration_number,
             'outlet' => $evaluation->employee->outlet->name.' / '.$evaluation->employee->grade->name,
-            'column' => $columns
+            'column' => $columns,
+            'evaluation_id' => $evaluation->id
         ];
         $pdf = PDF::loadView('evaluationPDF', $data);
         return $pdf->download('evaluation.pdf');
