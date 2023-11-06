@@ -31,6 +31,9 @@ class UserResource extends Resource
         return $form
             ->schema([
                 Section::make()->schema([
+                    Forms\Components\TextInput::make('username')
+                        ->required()
+                        ->maxLength(255),
                     Forms\Components\TextInput::make('name')
                         ->required()
                         ->maxLength(255),
@@ -46,12 +49,8 @@ class UserResource extends Resource
                         ->required(fn (Page $livewire) => ($livewire instanceof CreateUser))
                         ->maxLength(255),
                     Select::make('roles')
-                        ->multiple()
                         ->relationship('roles', 'name')
-                        ->preload(),
-                    Select::make('permissions')
-                        ->multiple()
-                        ->relationship('permissions', 'name')
+                        ->searchable()
                         ->preload(),
                 ])->columns(2)
 
