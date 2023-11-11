@@ -19,6 +19,8 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 
@@ -62,7 +64,12 @@ class AdminPanelProvider extends PanelProvider
             ->navigationItems([
                 NavigationItem::make('Live Chat')
                     ->url('https://skripsi-khisan.test/chatify', shouldOpenInNewTab: true)
-                    ->icon('heroicon-o-chat-bubble-left-right'),
+                    ->icon('heroicon-o-chat-bubble-left-right')
+                    ->badge(function() {
+                        $user = Auth::user()->id;
+                        $count = DB::table('ch_messages')->where('to_id', $user)->where('seen', 0)->count();
+                        return $count;
+                    }),
                 // NavigationItem::make('dashboard')
                 //     ->label(fn (): string => __('filament-panels::pages/dashboard.title'))
                 //     // ->url(fn (): string => Dashboard::getUrl())
