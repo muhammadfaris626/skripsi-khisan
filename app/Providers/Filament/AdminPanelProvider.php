@@ -6,6 +6,7 @@ use App\Filament\Pages\Login as PagesLogin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages;
 use Filament\Pages\Auth\Login;
 use Filament\Panel;
@@ -28,7 +29,7 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admin')
-            ->path('')
+            ->path('admin')
             ->sidebarCollapsibleOnDesktop()
             ->login(PagesLogin::class)
             ->colors([
@@ -41,8 +42,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                // Widgets\AccountWidget::class,
+                // Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -57,6 +58,16 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+            ])
+            ->navigationItems([
+                NavigationItem::make('Live Chat')
+                    ->url('https://skripsi-khisan.test/chatify', shouldOpenInNewTab: true)
+                    ->icon('heroicon-o-chat-bubble-left-right'),
+                // NavigationItem::make('dashboard')
+                //     ->label(fn (): string => __('filament-panels::pages/dashboard.title'))
+                //     // ->url(fn (): string => Dashboard::getUrl())
+                //     ->isActiveWhen(fn () => request()->routeIs('filament.admin.pages.dashboard')),
+                // // ...
             ]);
     }
 }

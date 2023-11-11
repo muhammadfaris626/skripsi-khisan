@@ -37,7 +37,6 @@ class RoleResource extends Resource
                         ->multiple()
                         ->relationship('permissions', 'name')
                         ->preload()
-
                 ])->columns(2)
 
             ]);
