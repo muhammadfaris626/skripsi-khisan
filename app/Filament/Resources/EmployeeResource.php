@@ -15,6 +15,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -30,9 +31,12 @@ class EmployeeResource extends Resource
         return $form
             ->schema([
                 Section::make('Employee')->schema([
-                    TextInput::make('registration_number')->required()->unique(),
+                    TextInput::make('registration_number')->required()->unique(ignoreRecord: true),
                     TextInput::make('name')->required(),
-                    TextInput::make('email')->email()->required()->unique(),
+                    TextInput::make('email')
+                        ->email()
+                        ->required()
+                        ->unique(ignoreRecord: true),
                     Select::make('outlet_id')->relationship('outlet', 'name')->required(),
                     Select::make('position_id')->relationship('position', 'name')->required(),
                     Select::make('grade_id')->relationship('grade', 'name')->required()
@@ -81,6 +85,7 @@ class EmployeeResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                DeleteAction::make()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
