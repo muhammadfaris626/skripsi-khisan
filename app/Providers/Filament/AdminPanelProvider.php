@@ -63,7 +63,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->navigationItems([
                 NavigationItem::make('Live Chat')
-                    ->url('https://skripsi-khisan.test/chatify', shouldOpenInNewTab: true)
+                    ->url('https://khisananugrah.my.id/chatify', shouldOpenInNewTab: true)
                     ->icon('heroicon-o-chat-bubble-left-right')
                     ->badge(function() {
                         $user = Auth::user()->id;
