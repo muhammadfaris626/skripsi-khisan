@@ -27,13 +27,13 @@ class CategoryAchievementResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)->label('Nama Kategori Penilaian'),
                 Forms\Components\TextInput::make('quality')
                     ->required()
-                    ->numeric(),
+                    ->numeric()->label('Bobot'),
                 Forms\Components\TextInput::make('desc')
                     ->required()
-                    ->numeric(),
+                    ->numeric()->label('Keterangan'),
             ]);
     }
 
@@ -42,10 +42,10 @@ class CategoryAchievementResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()->label('Nama Kategori Penilaian'),
                 Tables\Columns\TextColumn::make('quality')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()->label('Bobot'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -82,5 +82,10 @@ class CategoryAchievementResource extends Resource
             'create' => Pages\CreateCategoryAchievement::route('/create'),
             'edit' => Pages\EditCategoryAchievement::route('/{record}/edit'),
         ];
+    }
+
+    public static function getLabel(): ?string
+    {
+        return "Kategori Pencapaian";
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Login as PagesLogin;
+use BezhanSalleh\FilamentLanguageSwitch\FilamentLanguageSwitchPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -62,8 +63,8 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->navigationItems([
-                NavigationItem::make('Live Chat')
-                    ->url('https://khisananugrah.my.id/chatify', shouldOpenInNewTab: true)
+                NavigationItem::make('Obrolan')
+                    ->url('https://skripsi-khisan.test/chatify', shouldOpenInNewTab: true)
                     ->icon('heroicon-o-chat-bubble-left-right')
                     ->badge(function() {
                         $user = Auth::user()->id;
@@ -75,6 +76,9 @@ class AdminPanelProvider extends PanelProvider
                 //     // ->url(fn (): string => Dashboard::getUrl())
                 //     ->isActiveWhen(fn () => request()->routeIs('filament.admin.pages.dashboard')),
                 // // ...
+            ])
+            ->plugins([
+                // FilamentLanguageSwitchPlugin::make()
             ]);
     }
 }

@@ -30,7 +30,8 @@ class PermissionResource extends Resource
                     Forms\Components\TextInput::make('name')
                         ->required()
                         ->maxLength(255)
-                        ->unique(),
+                        ->unique()
+                        ->label('Nama Akses Izin'),
                 ])->columns(2)
 
             ]);
@@ -41,9 +42,7 @@ class PermissionResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('guard_name')
-                    ->searchable(),
+                    ->searchable()->label('Nama Akses Izin'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -80,5 +79,10 @@ class PermissionResource extends Resource
             'create' => Pages\CreatePermission::route('/create'),
             'edit' => Pages\EditPermission::route('/{record}/edit'),
         ];
+    }
+
+    public static function getLabel(): ?string
+    {
+        return "Akses Izin";
     }
 }

@@ -32,11 +32,12 @@ class RoleResource extends Resource
                     Forms\Components\TextInput::make('name')
                         ->required()
                         ->maxLength(255)
-                        ->unique(ignoreRecord: true),
+                        ->unique(ignoreRecord: true)->label('Nama Peran'),
                     Select::make('permissions')
                         ->multiple()
                         ->relationship('permissions', 'name')
-                        ->preload()
+                        ->preload()->label('Daftar Akses Izin')
+                        ->required()
                 ])->columns(2)
 
             ]);
@@ -47,9 +48,7 @@ class RoleResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('guard_name')
-                    ->searchable(),
+                    ->searchable()->label('Nama Peran'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -88,8 +87,8 @@ class RoleResource extends Resource
         ];
     }
 
-    // public static function getEloquentQuery(): Builder
-    // {
-    //     return parent::getEloquentQuery()->where('name', '!=', 'root');
-    // }
+    public static function getLabel(): ?string
+    {
+        return "Akses Peran";
+    }
 }

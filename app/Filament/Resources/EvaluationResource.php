@@ -39,13 +39,14 @@ class EvaluationResource extends Resource
         $aa = 100;
         return $form
             ->schema([
-                Section::make('Employee')->schema([
+                Section::make('Karyawan')->schema([
                     Select::make('employee_id')
                         ->relationship('employee', 'name')
                         ->searchable()
                         ->preload()
-                        ->required(),
-                    DatePicker::make('evaluation_date')->required(),
+                        ->required()
+                        ->label('Nama Karyawan'),
+                    DatePicker::make('evaluation_date')->required()->label('Tanggal Evaluasi'),
                     Select::make('assessment_period')->options([
                         '1' => 'January',
                         '2' => 'February',
@@ -59,10 +60,10 @@ class EvaluationResource extends Resource
                         '10' => 'October',
                         '11' => 'November',
                         '12' => 'December'
-                    ])
+                    ])->label('Periode Evaluasi')
                 ])->columns(3),
-                Section::make('Evaluation')->schema([
-                    Repeater::make('evaluationLists')->relationship()->schema([
+                Section::make('Evaluasi')->schema([
+                    Repeater::make('evaluationLists')->label('Daftar Evaluasi')->relationship()->schema([
                         Select::make('category_achievement_id')
                             ->label('Category Achievement')
                             ->live()
@@ -74,7 +75,7 @@ class EvaluationResource extends Resource
                                     ->reject(fn($id) => $id == $state)
                                     ->filter()
                                     ->contains($value);
-                            }),
+                            })->label('Kategori Penilaian'),
                             TextInput::make('score')
                                 ->required()
                                 ->numeric()
@@ -91,10 +92,10 @@ class EvaluationResource extends Resource
                                             $set('final_score', $hasil);
                                         }
                                     }
-                                }),
+                                })->label('Nilai'),
                             TextInput::make('final_score')
-                                ->required(),
-                            TextInput::make('description')->required()
+                                ->required()->label('Nilai Akhir'),
+                            TextInput::make('description')->required()->label('Keterangan')
                     ])
                     ->columns(4)
                     ->itemLabel(fn(array $state): ?string => CategoryAchievement::where('id', $state['category_achievement_id'])->first()->name ?? null)
@@ -106,12 +107,13 @@ class EvaluationResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('employee.registration_number')->searchable(),
-                TextColumn::make('employee.name')->searchable(),
+                TextColumn::make('employee.registration_number')->searchable()->label('Nomor Induk Karyawan'),
+                TextColumn::make('employee.name')->searchable()->label('Nama Karyawan'),
                 TextColumn::make('evaluation_date')
                     ->searchable()
-                    ->formatStateUsing(fn(string $state): string => date_format(date_create($state), "d M Y")),
-                TextColumn::make('assessment_period')->formatStateUsing(fn(string $state): string => DateTime::createFromFormat('!m', $state)->format('F'))
+                    ->formatStateUsing(fn(string $state): string => date_format(date_create($state), "d M Y"))
+                    ->label('Tanggal Evaluasi'),
+                TextColumn::make('assessment_period')->formatStateUsing(fn(string $state): string => DateTime::createFromFormat('!m', $state)->format('F'))->label('Periode Penilaian')
             ])
             ->filters([
                 //
@@ -146,5 +148,10 @@ class EvaluationResource extends Resource
             'view' => Pages\ViewEvaluation::route('/{record}'),
             'edit' => Pages\EditEvaluation::route('/{record}/edit'),
         ];
+    }
+
+    public static function getLabel(): ?string
+    {
+        return "Evaluasi";
     }
 }

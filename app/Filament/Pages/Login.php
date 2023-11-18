@@ -41,12 +41,12 @@ class Login extends CustomLogin
 
     public function getTitle(): string|Htmlable
     {
-        return __('Login');
+        return __('Masuk');
     }
 
     public function getHeading(): string|Htmlable
     {
-        return __('Login');
+        return __('Masuk');
     }
 
     protected function getEmailFormComponent(): Component

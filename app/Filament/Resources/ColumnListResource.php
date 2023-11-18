@@ -27,20 +27,20 @@ class ColumnListResource extends Resource
             ->schema([
                 Forms\Components\Select::make('category_achievement_id')
                     ->relationship('categoryAchievement', 'name')
-                    ->required(),
+                    ->required()->label('Kategori Penilaian'),
                 Forms\Components\TextInput::make('order')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)->label('Urutan'),
                 Forms\Components\TextInput::make('column_a')
-                    ->maxLength(255),
+                    ->maxLength(255)->label('Kolom A'),
                 Forms\Components\TextInput::make('column_b')
-                    ->maxLength(255),
+                    ->maxLength(255)->label('Kolom B'),
                 Forms\Components\TextInput::make('column_c')
-                    ->maxLength(255),
+                    ->maxLength(255)->label('Kolom C'),
                 Forms\Components\TextInput::make('column_d')
-                    ->maxLength(255),
+                    ->maxLength(255)->label('Kolom D'),
                 Forms\Components\TextInput::make('column_e')
-                    ->maxLength(255),
+                    ->maxLength(255)->label('Kolom E'),
             ]);
     }
 
@@ -50,19 +50,19 @@ class ColumnListResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('categoryAchievement.name')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()->label('Kategori Penilaian'),
                 Tables\Columns\TextColumn::make('order')
-                    ->searchable(),
+                    ->searchable()->label('Urutan'),
                 Tables\Columns\TextColumn::make('column_a')
-                    ->searchable(),
+                    ->searchable()->label('Kolom A'),
                 Tables\Columns\TextColumn::make('column_b')
-                    ->searchable(),
+                    ->searchable()->label('Kolom B'),
                 Tables\Columns\TextColumn::make('column_c')
-                    ->searchable(),
+                    ->searchable()->label('Kolom C'),
                 Tables\Columns\TextColumn::make('column_d')
-                    ->searchable(),
+                    ->searchable()->label('Kolom D'),
                 Tables\Columns\TextColumn::make('column_e')
-                    ->searchable(),
+                    ->searchable()->label('Kolom E'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -99,5 +99,10 @@ class ColumnListResource extends Resource
             'create' => Pages\CreateColumnList::route('/create'),
             'edit' => Pages\EditColumnList::route('/{record}/edit'),
         ];
+    }
+
+    public static function getLabel(): ?string
+    {
+        return "Daftar Kolom";
     }
 }

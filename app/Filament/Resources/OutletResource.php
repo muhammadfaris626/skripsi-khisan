@@ -27,10 +27,10 @@ class OutletResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('code')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)->label('Kode Toko'),
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)->label('Nama Toko'),
             ]);
     }
 
@@ -39,9 +39,9 @@ class OutletResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('code')
-                    ->searchable(),
+                    ->searchable()->label('Kode Toko'),
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()->label('Nama Toko'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -78,5 +78,10 @@ class OutletResource extends Resource
             'create' => Pages\CreateOutlet::route('/create'),
             'edit' => Pages\EditOutlet::route('/{record}/edit'),
         ];
+    }
+
+    public static function getLabel(): ?string
+    {
+        return "Toko";
     }
 }

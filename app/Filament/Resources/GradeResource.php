@@ -27,7 +27,8 @@ class GradeResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label('Nama Golongan'),
             ]);
     }
 
@@ -36,7 +37,7 @@ class GradeResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()->label('Nama Golongan'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -73,5 +74,10 @@ class GradeResource extends Resource
             'create' => Pages\CreateGrade::route('/create'),
             'edit' => Pages\EditGrade::route('/{record}/edit'),
         ];
+    }
+
+    public static function getLabel(): ?string
+    {
+        return "Golongan";
     }
 }

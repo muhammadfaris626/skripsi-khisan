@@ -28,10 +28,12 @@ class PositionResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('code')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label('Kode Jabatan'),
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label('Nama Jabatan'),
             ]);
     }
 
@@ -40,9 +42,9 @@ class PositionResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('code')
-                    ->searchable(),
+                    ->searchable()->label('Kode Jabatan'),
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()->label('Nama Jabatan'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -79,5 +81,10 @@ class PositionResource extends Resource
             'create' => Pages\CreatePosition::route('/create'),
             'edit' => Pages\EditPosition::route('/{record}/edit'),
         ];
+    }
+
+    public static function getLabel(): ?string
+    {
+        return "Posisi Jabatan";
     }
 }

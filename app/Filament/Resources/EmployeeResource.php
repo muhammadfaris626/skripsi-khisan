@@ -30,25 +30,26 @@ class EmployeeResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('Employee')->schema([
-                    TextInput::make('registration_number')->required()->unique(ignoreRecord: true),
-                    TextInput::make('name')->required(),
+                Section::make('Data Karyawan')->schema([
+                    TextInput::make('registration_number')->required()->unique(ignoreRecord: true)->label('Nomor Induk Karyawan'),
+                    TextInput::make('name')->required()->label('Nama Lengkap'),
                     TextInput::make('email')
                         ->email()
                         ->required()
                         ->unique(ignoreRecord: true),
-                    Select::make('outlet_id')->relationship('outlet', 'name')->required(),
-                    Select::make('position_id')->relationship('position', 'name')->required(),
-                    Select::make('grade_id')->relationship('grade', 'name')->required()
+                    Select::make('outlet_id')->relationship('outlet', 'name')->required()->label('Toko'),
+                    Select::make('position_id')->relationship('position', 'name')->required()->label('Posisi Jabatan'),
+                    Select::make('grade_id')->relationship('grade', 'name')->required()->label('Golongan')
                 ])->columnSpan(1),
-                Section::make('Certificate File')->schema([
+                Section::make('Data Sertifikat')->schema([
                     Repeater::make('certificates')->label('Certificate List')->relationship()->schema([
-                        TextInput::make('name')->required(),
-                        DatePicker::make('certificate_date')->required(),
+                        TextInput::make('name')->required()->label('Nama Sertifikat'),
+                        DatePicker::make('certificate_date')->required()->label('Tanggal Sertifikat'),
                         FileUpload::make('file')
                             ->directory('certificate-file')
                             ->required()
-                    ])->columns(3)
+                            ->label('Berkas')
+                    ])->columns(3)->label('Daftar Sertifikat')
                 ])->columnSpan(2)
             ])->columns(3);
     }
@@ -58,26 +59,30 @@ class EmployeeResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('registration_number')
-                    ->searchable(),
+                    ->searchable()->label('Nomor Induk Karyawan'),
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()->label('Nama Lengkap'),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('position.name')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('Posisi Jabatan'),
                 Tables\Columns\TextColumn::make('grade.name')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('Golongan'),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->label('Tanggal dibuat'),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->label('Tanggal diperbarui'),
             ])
             ->filters([
                 //
@@ -109,5 +114,10 @@ class EmployeeResource extends Resource
             'view' => Pages\ViewEmployee::route('/{record}'),
             'edit' => Pages\EditEmployee::route('/{record}/edit'),
         ];
+    }
+
+    public static function getLabel(): ?string
+    {
+        return "Karyawan";
     }
 }

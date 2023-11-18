@@ -37,12 +37,12 @@ class UserResource extends Resource
                         ->maxLength(255),
                     Forms\Components\TextInput::make('name')
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)->label('Nama Lengkap'),
                     Forms\Components\TextInput::make('email')
                         ->email()
                         ->required()
                         ->maxLength(255),
-                    Forms\Components\DateTimePicker::make('email_verified_at'),
+                    Forms\Components\DateTimePicker::make('email_verified_at')->label('Tanggal Verifikasi Email'),
                     Forms\Components\TextInput::make('password')
                         ->password()
                         ->dehydrateStateUsing(fn ($state) => Hash::make($state))
@@ -52,7 +52,7 @@ class UserResource extends Resource
                     Select::make('roles')
                         ->relationship('roles', 'name')
                         ->searchable()
-                        ->preload(),
+                        ->preload()->label('Akses Peran'),
                 ])->columns(2)
 
             ]);
@@ -65,12 +65,12 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('username')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()->label('Nama Lengkap'),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()->label("Tanggal Verifikasi Email"),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -108,5 +108,10 @@ class UserResource extends Resource
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
+    }
+
+    public static function getLabel(): ?string
+    {
+        return "Pengguna";
     }
 }
